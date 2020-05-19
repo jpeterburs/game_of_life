@@ -34,3 +34,26 @@ struct options start_menu()
 
     return current_options;
 }
+
+
+int validate_input(struct options start_menu) //Überprüfung ob die Eingabe in Ordnung ist
+{
+    int validate;   // Validate 0 = ist nicht in Ordnung
+    validate = 1;   // Validate 1 = ist in Ordnung
+
+    if (start_menu.height <= 2) {
+        printf("The input of the height is too low.");
+        validate = 0;
+    }
+
+    if (start_menu.width <= 2) {
+       printf("The input of the width is too low.");
+       validate = 0;
+    }
+
+    if (validate = 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
