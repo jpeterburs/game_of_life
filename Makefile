@@ -4,5 +4,5 @@ program: main.o
 main.o: main.c
 	gcc -c main.c
 
-game_of_life: game_of_life.c
+game_of_life.o: game_of_life.c
 	gcc -c game_of_life.c
