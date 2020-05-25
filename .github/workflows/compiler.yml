@@ -8,5 +8,5 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
 
-      - name: Compile Makefile
+      - name: Compile using Makefile
         run: make
