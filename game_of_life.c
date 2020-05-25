@@ -59,3 +59,39 @@ struct options start_menu()
 
     return current_options;
 }
+
+/**
+ *  Creates an empty play field initialized with dead cells
+ **/
+void create_field(struct options current_options, int field[][current_options.width])
+{
+    int i, j;
+    for(i = 0; i < current_options.height; i++){
+        for(j = 0; j < current_options.width; j++){
+            field[i][j] = 0; //Initial value for cells
+        }
+    }
+}
+
+/**
+ *  Outputs a field of cells to console
+ **/
+void print_field(struct options current_options, int field[][current_options.width])
+{
+    clear_screen();
+    build_frame(80, 15);
+
+    int i, j;
+    for(i = 0; i < current_options.height; i++){
+        set_cursor(25, 2+i*2);
+        for(j = 0; j < current_options.width; j++){
+            //Checks if cell is dead
+            if(field[i][j] == 0){
+                printf("%c ", current_options.dead);
+            } else {
+                printf("%c ", current_options.alive);
+            }
+        }
+        printf("\n");
+    }
+}

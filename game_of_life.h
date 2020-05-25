@@ -11,5 +11,7 @@ struct options
 };
 
 struct options start_menu();
+void create_field(struct options current_options, int field[][current_options.width]);
+void print_field(struct options current_options, int field[][current_options.width]);
 
 #endif // GAME_OF_LIFE_H_INCLUDED
