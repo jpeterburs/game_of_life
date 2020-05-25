@@ -1,14 +1,26 @@
+/**
+ *  Conway's Game of Life
+ *  https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+ *
+ *  This is a zero-player game, meaning that its a evolution simulator.
+ *
+ *  Authors: Eduard Rempel, Jonas Peterburs, Milan Wiehe
+ *  Created at: 2020/05/19
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include "console_helper.h"
 #include "game_of_life.h"
 
+/**
+ *  Creates a simple framed start menu for the player to setup his options.
+ **/
 struct options start_menu()
 {
     struct options current_options;
 
-    allow_special_chars();
-    build_frame(80, 15);
+    allow_special_chars(); // Enable the usage for special characters.
+    build_frame(80, 15); // Create an empty frame for the start menu
 
     set_cursor(25, 2);
     printf("Welcome to the game of life");
