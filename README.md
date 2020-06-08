@@ -7,7 +7,7 @@
       <img src="https://github.com/jpeterburs/game_of_life/workflows/compiler/badge.svg" alt="Build">
     </a>
     <a href="./LICENSE">
-      <img src="https://img.shields.io/github/license/jpeterburs/game_of_life" alt="GitHub Licemse">
+      <img src="https://img.shields.io/github/license/jpeterburs/game_of_life" alt="GitHub License">
     </a>
     <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2020">
   </p>
