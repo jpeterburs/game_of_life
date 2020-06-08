@@ -76,6 +76,21 @@ void create_field(struct options current_options, int field[][current_options.wi
 }
 
 /**
+ *  Copy field from source_field to target_field
+ **/
+void copy_field(struct options current_options, int source_field[][current_options.width], int target_field[][current_options.width])
+{
+    int i, j;
+    for(i = 0; i < current_options.height; i++)
+    {
+        for(j = 0; j < current_options.width; j++)
+        {
+            target_field[i][j] = source_field[i][j]; //Initial value for cells
+        }
+    }
+}
+
+/**
  *  Outputs a field of cells to console
  **/
 void print_field(struct options current_options, int field[][current_options.width])
@@ -97,9 +112,11 @@ void print_field(struct options current_options, int field[][current_options.wid
             {
                 printf("%c ", current_options.alive);
             }
+            //printf("%i ", field[i][j]);
         }
         printf("\n");
     }
+    printf("\n");
 }
 
 /**
@@ -135,25 +152,24 @@ struct rule_set input_rule_set()
     return game_rules;
 };
 
-void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules)
+void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width])
 {
     int i, j;
     int i_offset, j_offset;
     int count_alive = 0;
-    int next_field[current_options.height][current_options.width];
+
     for(i = 0; i < current_options.height; i++)
     {
-
         for(j = 0; j < current_options.width; j++)
         {
-            for(i_offset = -1; i_offset < 1; i_offset++)
+            for(i_offset = -1; i_offset < 2; i_offset++)
             {
-                for(j_offset = -1; j_offset < 1; j_offset++)
+                for(j_offset = -1; j_offset < 2; j_offset++)
                 {
                     int pos_i = i + i_offset;
                     int pos_j = j + j_offset;
 
-                    if(pos_i >= 0 && pos_i < current_options.height && pos_j >= 0 && pos_j < current_options.width && pos_i != i && pos_j != j)
+                    if(pos_i >= 0 && pos_i < current_options.height && pos_j >= 0 && pos_j < current_options.width && !(pos_i == i && pos_j == j))
                     {
                         count_alive += field[pos_i][pos_j];
                     }
