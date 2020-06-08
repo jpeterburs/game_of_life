@@ -66,8 +66,10 @@ struct options start_menu()
 void create_field(struct options current_options, int field[][current_options.width])
 {
     int i, j;
-    for(i = 0; i < current_options.height; i++){
-        for(j = 0; j < current_options.width; j++){
+    for(i = 0; i < current_options.height; i++)
+    {
+        for(j = 0; j < current_options.width; j++)
+        {
             field[i][j] = 0; //Initial value for cells
         }
     }
@@ -81,16 +83,107 @@ void print_field(struct options current_options, int field[][current_options.wid
     clear_screen();
 
     int i, j;
-    for(i = 0; i < current_options.height; i++){
+    for(i = 0; i < current_options.height; i++)
+    {
 
-        for(j = 0; j < current_options.width; j++){
+        for(j = 0; j < current_options.width; j++)
+        {
             //Checks if cell is dead
-            if(field[i][j] == 0){
+            if(field[i][j] == 0)
+            {
                 printf("%c ", current_options.dead);
-            } else {
+            }
+            else
+            {
                 printf("%c ", current_options.alive);
             }
         }
         printf("\n");
+    }
+}
+
+/**
+ *  Generate rule set from user input
+ **/
+struct rule_set input_rule_set()
+{
+    struct rule_set game_rules;
+
+    clear_screen();
+    build_frame(80, 15); // Create an empty frame for the start menu
+
+    set_cursor(5, 6);
+    printf("Maximum number of neighbors to revive: ");
+    scanf("%i", &game_rules.max_revive);
+    fflush(stdin);
+
+    set_cursor(5, 7);
+    printf("Minimum number of neighbors to revive: ");
+    scanf("%i", &game_rules.min_revive);
+    fflush(stdin);
+
+    set_cursor(5, 8);
+    printf("Maximum number of neighbors to survive: ");
+    scanf("%i", &game_rules.max_survive);
+    fflush(stdin);
+
+    set_cursor(5, 9);
+    printf("Minimum number of neighbors to survive: ");
+    scanf("%i", &game_rules.min_survive);
+    fflush(stdin);
+
+    return game_rules;
+};
+
+void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules)
+{
+    int i, j;
+    int i_offset, j_offset;
+    int count_alive = 0;
+    int next_field[current_options.height][current_options.width];
+    for(i = 0; i < current_options.height; i++)
+    {
+
+        for(j = 0; j < current_options.width; j++)
+        {
+            for(i_offset = -1; i_offset < 1; i_offset++)
+            {
+                for(j_offset = -1; j_offset < 1; j_offset++)
+                {
+                    int pos_i = i + i_offset;
+                    int pos_j = j + j_offset;
+
+                    if(pos_i >= 0 && pos_i < current_options.height && pos_j >= 0 && pos_j < current_options.width && pos_i != i && pos_j != j)
+                    {
+                        count_alive += field[pos_i][pos_j];
+                    }
+                }
+            }
+
+            if(field[i][j] == 1)
+            {
+                if(count_alive > game_rules.max_survive || count_alive < game_rules.min_survive)
+                {
+                    next_field[i][j] = 0;
+                }
+                else
+                {
+                    next_field[i][j] = 1;
+                }
+            }
+            else
+            {
+                if(count_alive > game_rules.max_revive || count_alive < game_rules.min_revive)
+                {
+                    next_field[i][j] = 0;
+                }
+                else
+                {
+                    next_field[i][j] = 1;
+                }
+            }
+
+            count_alive = 0;
+        }
     }
 }
