@@ -79,11 +79,10 @@ void create_field(struct options current_options, int field[][current_options.wi
 void print_field(struct options current_options, int field[][current_options.width])
 {
     clear_screen();
-    build_frame(80, 15);
 
     int i, j;
     for(i = 0; i < current_options.height; i++){
-        set_cursor(25, 2+i*2);
+
         for(j = 0; j < current_options.width; j++){
             //Checks if cell is dead
             if(field[i][j] == 0){
