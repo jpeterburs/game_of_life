@@ -1,8 +1,8 @@
-name: Compiler
+name: compiler
 on: [push]
 jobs:
   build:
-    name: Build
+    name: build
     runs-on: windows-latest
     steps:
       - name: Checkout branch
