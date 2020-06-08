@@ -4,9 +4,11 @@
   </p>
   <p>
     <a href="https://github.com/jpeterburs/game_of_life/actions">
-      <img src="https://github.com/jpeterburs/game_of_life/workflows/Compiler/badge.svg" alt="Compiler">
+      <img src="https://github.com/jpeterburs/game_of_life/workflows/compiler/badge.svg" alt="Build">
     </a>
-    <img alt="GitHub" src="https://img.shields.io/github/license/jpeterburs/game_of_life">
+    <a href="./LICENSE">
+      <img src="https://img.shields.io/github/license/jpeterburs/game_of_life" alt="GitHub Licemse">
+    </a>
     <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2020">
   </p>
 </div>
