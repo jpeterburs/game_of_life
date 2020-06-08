@@ -1,5 +1,15 @@
-# Game of Life
-![Compiler](https://github.com/jpeterburs/game_of_life/workflows/Compiler/badge.svg)
+<div align="center">
+  <p>
+    <img src="https://i.imgur.com/yXHSdel.png">
+  </p>
+  <p>
+    <a href="https://github.com/jpeterburs/game_of_life/actions">
+      <img src="https://github.com/jpeterburs/game_of_life/workflows/Compiler/badge.svg" alt="Compiler">
+    </a>
+    <img alt="GitHub" src="https://img.shields.io/github/license/jpeterburs/game_of_life">
+    <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2020">
+  </p>
+</div>
 
 ## Table of contents
 - [Overview](#overview)
