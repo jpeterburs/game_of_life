@@ -16,11 +16,11 @@ int main()
 
     while(1)
     {
-        print_field(current_options, next_field);
-
         calculate_next_step(current_options, field, base_rules, next_field);
         copy_field(current_options, next_field, field);
 
+        print_field(current_options, next_field);
+            
         char next;
         scanf("%c", &next);
         fflush(stdin);
