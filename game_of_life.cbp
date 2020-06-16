@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="console_helper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="console_helper.h" />
 		<Unit filename="game_of_life.c">
 			<Option compilerVar="CC" />
 		</Unit>

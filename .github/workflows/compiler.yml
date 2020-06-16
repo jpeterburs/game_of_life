@@ -1,12 +1,12 @@
-name: Compiler
+name: compiler
 on: [push]
 jobs:
   build:
-    name: Build
+    name: build
     runs-on: windows-latest
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
 
-      - name: Compile Makefile
+      - name: Compile using Makefile
         run: make
