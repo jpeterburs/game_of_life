@@ -61,16 +61,26 @@ struct options start_menu()
 }
 
 /**
- *  Creates an empty play field initialized with dead cells
+ *  Creates an empty play field initialized with random cells
  **/
 void create_field(struct options current_options, int field[][current_options.width])
 {
-    int i, j;
+    int i, j, state;
+
     for(i = 0; i < current_options.height; i++)
     {
         for(j = 0; j < current_options.width; j++)
         {
-            field[i][j] = 0; //Initial value for cells
+            state = rand();
+            printf("%i", state);
+            if (state%2 == 0)
+            {
+                field[i][j] = 1;
+            }
+            else
+            {
+                field[i][j] = 0;
+            }
         }
     }
 }
@@ -112,7 +122,6 @@ void print_field(struct options current_options, int field[][current_options.wid
             {
                 printf("%c ", current_options.alive);
             }
-            //printf("%i ", field[i][j]);
         }
         printf("\n");
     }
