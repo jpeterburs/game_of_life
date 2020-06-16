@@ -9,6 +9,7 @@
  **/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "console_helper.h"
 #include "game_of_life.h"
 
@@ -65,15 +66,16 @@ struct options start_menu()
  **/
 void create_field(struct options current_options, int field[][current_options.width])
 {
-    int i, j, state;
+    int i, j;
+    time_t t;
+    srand(time(&t));
 
     for(i = 0; i < current_options.height; i++)
     {
         for(j = 0; j < current_options.width; j++)
         {
-            state = rand();
-            printf("%i", state);
-            if (state%2 == 0)
+
+            if (rand() % 2 == 0)
             {
                 field[i][j] = 1;
             }
