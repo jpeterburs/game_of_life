@@ -14,19 +14,35 @@ int main()
     int field[current_options.height][current_options.width];
     int next_field[current_options.height][current_options.width];
 
+    int pre_last_state[current_options.height][current_options.width];
+    int last_state[current_options.height][current_options.width];
+
     create_field(current_options, field);
 
-    while(1)
+    while(has_won(current_options, field, pre_last_state) != 1)
     {
+        print_field(current_options, field);
         calculate_next_step(current_options, field, base_rules, next_field);
-        copy_field(current_options, next_field, field);
 
-        print_field(current_options, next_field);
+        // cache last fields for state determination
+        copy_field(current_options, last_state, pre_last_state);
+        copy_field(current_options, field, last_state);
+
+        copy_field(current_options, next_field, field);
 
         char next;
         scanf("%c", &next);
         fflush(stdin);
     }
 
-    return 0;
+    if (has_won(current_options, field, pre_last_state))
+    {
+        printf("You have won! Maybe ...\n");
+        return 0;
+    }
+    else
+    {
+        printf("Unable to determine state.\n");
+        return 1;
+    }
 }
