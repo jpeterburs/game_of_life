@@ -41,7 +41,7 @@ int validate_input(struct options start_menu) //Überprüfung ob die Eingabe in Or
     int validate = 0;   // Validate 0 = ist nicht in Ordnung
                         // Validate 1 = ist in Ordnung
 
-    if ((start_menu.height <= 2) OR (start_menu.width <= 2)) {
+    if ((start_menu.height <= 2) || (start_menu.width <= 2)) {
         printf("The input of the height or width is incorrect.\n");
         validate = 0;
     } else {
