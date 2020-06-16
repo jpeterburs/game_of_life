@@ -16,7 +16,7 @@ int main()
 
     create_field(current_options, field);
 
-    save_field("test\0", current_options, field);
+    save_field("test", current_options, field);
 
     load_field("test.gol");
 
