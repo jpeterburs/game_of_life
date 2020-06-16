@@ -27,4 +27,6 @@ void print_field(struct options current_options, int field[][current_options.wid
 struct rule_set input_rule_set();
 void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width]);
 
+int validate_input(struct options);
+
 #endif // GAME_OF_LIFE_H_INCLUDED

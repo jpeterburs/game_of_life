@@ -61,6 +61,24 @@ struct options start_menu()
 }
 
 /**
+* Checks if the Input is valid
+**/
+int validate_input(struct options start_menu)
+{
+    int validate = 0;   // Validate 0 = Input is not Valid
+                        // Validate 1 = Input is Valid
+
+    if ((start_menu.height <= 2) || (start_menu.width <= 2)) {
+        printf("The input of the height or width is incorrect.\n");
+        validate = 0;
+    } else {
+        validate = 1;
+    }
+
+    return validate;
+}
+
+/**
  *  Creates an empty play field initialized with random cells
  **/
 void create_field(struct options current_options, int field[][current_options.width])
