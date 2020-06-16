@@ -228,3 +228,5 @@ void calculate_next_step(struct options current_options, int field[][current_opt
 
             count_alive = 0;
         }
+    }
+}
