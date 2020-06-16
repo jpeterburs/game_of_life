@@ -25,8 +25,9 @@ int main()
 
     while(1)
     {
-
         char pause;
+        printf("\n");
+        printf("Press [Enter] for next iteration.");
         scanf("%c", &pause);
         fflush(stdin);
 

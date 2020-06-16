@@ -96,6 +96,7 @@ void copy_field(struct options current_options, int source_field[][current_optio
 void print_field(struct options current_options, int field[][current_options.width])
 {
     clear_screen();
+    printf("Iteration: %i\tPer second: %i \tMode: %s \n\n", 99, current_options.iterations_per_second, "Step");
 
     int i, j;
     for(i = 0; i < current_options.height; i++)
