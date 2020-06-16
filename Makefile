@@ -1,7 +1,7 @@
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
 CC = gcc
-CFLAGS  = -g -Wall
+CFLAGS  = -g -Werror
 TARGET = game_of_life
 
 all: game_of_life
