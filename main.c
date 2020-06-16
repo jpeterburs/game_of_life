@@ -15,22 +15,21 @@ int main()
     int next_field[current_options.height][current_options.width];
 
     create_field(current_options, field);
-    print_field(current_options, field);
 
     save_field("test\0", current_options, field);
 
+    load_field("test.gol");
+
     while(1)
     {
-        char next;
-        scanf("%c", &next);
-        fflush(stdin);
+        print_field(current_options, field);
 
         calculate_next_step(current_options, field, base_rules, next_field);
         copy_field(current_options, next_field, field);
 
-        print_field(current_options, next_field);
-
-
+        char next;
+        scanf("%c", &next);
+        fflush(stdin);
     }
 
     return 0;

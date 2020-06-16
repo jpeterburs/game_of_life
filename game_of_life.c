@@ -213,13 +213,13 @@ void calculate_next_step(struct options current_options, int field[][current_opt
     }
 }
 
-void save_field(char save_name[],struct options current_options, int field[][current_options.width])
+void save_field(char save_name[], struct options current_options, int field[][current_options.width])
 {
     char file_name[80];
     strcpy(file_name, save_name);
     strcat(file_name, ".gol");
-    FILE *datendatei;
-    datendatei = fopen(file_name, "w+");
+    FILE *save_file;
+    save_file = fopen(file_name, "w+");
 
     int i, j;
     for(i = 0; i < current_options.height; i++)
@@ -228,12 +228,32 @@ void save_field(char save_name[],struct options current_options, int field[][cur
         for(j = 0; j < current_options.width; j++)
         {
             //Checks if cell is dead
-            fprintf(datendatei, "%d", field[i][j]);
+            fprintf(save_file, "%d", field[i][j]);
 
         }
-        fprintf(datendatei, "\n");
+        fprintf(save_file, "\n");
     }
-    //printf("\n");
 
-    fclose(datendatei);
+    fclose(save_file);
+}
+
+void load_field(char file_path[])
+{
+    FILE *save_file;
+    save_file = fopen(file_path, "r");
+
+
+
+    char buffer[30];
+
+    while (fscanf(save_file, "%30[^\n]\n", buffer) != EOF)
+    {
+         printf("> %s\n", buffer);
+    }
+
+    fclose(save_file);
+
+    char next;
+    scanf("%c", &next);
+    fflush(stdin);
 }
