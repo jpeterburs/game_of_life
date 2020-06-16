@@ -31,6 +31,8 @@ int main()
         copy_field(current_options, next_field, field);
 
         char next;
+        printf("\n");
+        printf("Press [Enter] for next iteration.");
         scanf("%c", &next);
         fflush(stdin);
     }
