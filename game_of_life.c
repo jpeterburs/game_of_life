@@ -48,9 +48,5 @@ int validate_input(struct options start_menu) //Überprüfung ob die Eingabe in Or
         validate = 1;
     }
 
-    if (validate = 0) {
-        return 0;
-    } else {
-        return 1;
-    }
+    return validate;
 }

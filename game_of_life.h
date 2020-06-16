@@ -12,4 +12,6 @@ struct options
 
 struct options start_menu();
 
+int validate_input(struct options);
+
 #endif // GAME_OF_LIFE_H_INCLUDED
