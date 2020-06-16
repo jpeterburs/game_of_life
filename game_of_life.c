@@ -161,6 +161,27 @@ struct rule_set input_rule_set()
     return game_rules;
 };
 
+/**
+ *  Compares current state with the comparable state to determine if the game is "won"
+ **/
+int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width])
+{
+    int i, j;
+    for (i = 0; i < current_options.height; i++)
+    {
+        for (j = 0; j < current_options.width; j++)
+        {
+            if (current_state[i][j] != compare_state[i][j])
+            {
+                return 0;
+            }
+        }
+
+    }
+
+    return 1;
+}
+
 void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width])
 {
     int i, j;

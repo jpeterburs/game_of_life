@@ -21,6 +21,7 @@ struct rule_set
 };
 
 struct options start_menu();
+int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width]);
 void create_field(struct options current_options, int field[][current_options.width]);
 void copy_field(struct options current_options, int source_field[][current_options.width], int target_field[][current_options.width]);
 void print_field(struct options current_options, int field[][current_options.width]);
