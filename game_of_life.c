@@ -9,6 +9,7 @@
  **/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "console_helper.h"
 #include "game_of_life.h"
 
@@ -83,15 +84,15 @@ int validate_input(struct options start_menu)
  **/
 void create_field(struct options current_options, int field[][current_options.width])
 {
-    int i, j, state;
+    int i, j;
+    time_t t;
+    srand(time(&t));
 
     for(i = 0; i < current_options.height; i++)
     {
         for(j = 0; j < current_options.width; j++)
         {
-            state = rand();
-            //printf("%i", state);
-            if (state%2 == 0)
+            if (rand() % 2 == 0)
             {
                 field[i][j] = 1;
             }
@@ -124,6 +125,7 @@ void copy_field(struct options current_options, int source_field[][current_optio
 void print_field(struct options current_options, int field[][current_options.width])
 {
     clear_screen();
+    printf("Iteration: %i\tPer second: %i \tMode: %s \n\n", 99, current_options.iterations_per_second, "Step");
 
     int i, j;
     for(i = 0; i < current_options.height; i++)
@@ -178,6 +180,27 @@ struct rule_set input_rule_set()
 
     return game_rules;
 };
+
+/**
+ *  Compares current state with the comparable state to determine if the game is "won"
+ **/
+int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width])
+{
+    int i, j;
+    for (i = 0; i < current_options.height; i++)
+    {
+        for (j = 0; j < current_options.width; j++)
+        {
+            if (current_state[i][j] != compare_state[i][j])
+            {
+                return 0;
+            }
+        }
+
+    }
+
+    return 1;
+}
 
 void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width])
 {
