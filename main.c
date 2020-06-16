@@ -14,16 +14,23 @@ int main()
     int field[current_options.height][current_options.width];
     int next_field[current_options.height][current_options.width];
 
+    create_field(current_options, field);
+    print_field(current_options, field);
+
+    save_field("test\0", current_options, field);
+
     while(1)
     {
+        char next;
+        scanf("%c", &next);
+        fflush(stdin);
+
         calculate_next_step(current_options, field, base_rules, next_field);
         copy_field(current_options, next_field, field);
 
         print_field(current_options, next_field);
-            
-        char next;
-        scanf("%c", &next);
-        fflush(stdin);
+
+
     }
 
     return 0;

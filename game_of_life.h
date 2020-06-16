@@ -26,5 +26,7 @@ void copy_field(struct options current_options, int source_field[][current_optio
 void print_field(struct options current_options, int field[][current_options.width]);
 struct rule_set input_rule_set();
 void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width]);
+void load_field();
+void save_field(char save_name[],struct options current_options, int field[][current_options.width]);
 
 #endif // GAME_OF_LIFE_H_INCLUDED

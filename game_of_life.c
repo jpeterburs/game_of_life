@@ -72,7 +72,7 @@ void create_field(struct options current_options, int field[][current_options.wi
         for(j = 0; j < current_options.width; j++)
         {
             state = rand();
-            printf("%i", state);
+            //printf("%i", state);
             if (state%2 == 0)
             {
                 field[i][j] = 1;
@@ -211,4 +211,29 @@ void calculate_next_step(struct options current_options, int field[][current_opt
             count_alive = 0;
         }
     }
+}
+
+void save_field(char save_name[],struct options current_options, int field[][current_options.width])
+{
+    char file_name[80];
+    strcpy(file_name, save_name);
+    strcat(file_name, ".gol");
+    FILE *datendatei;
+    datendatei = fopen(file_name, "w+");
+
+    int i, j;
+    for(i = 0; i < current_options.height; i++)
+    {
+
+        for(j = 0; j < current_options.width; j++)
+        {
+            //Checks if cell is dead
+            fprintf(datendatei, "%d", field[i][j]);
+
+        }
+        fprintf(datendatei, "\n");
+    }
+    //printf("\n");
+
+    fclose(datendatei);
 }
