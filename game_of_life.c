@@ -62,12 +62,10 @@ void start_game()
     if (has_won(current_options, field, pre_last_state))
     {
         printf("You have won! Maybe ...\n");
-        return 0;
     }
     else
     {
         printf("Unable to determine state.\n");
-        return 1;
     }
 }
 
