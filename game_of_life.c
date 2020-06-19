@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <Windows.h>
 #include "console_helper.h"
 #include "game_of_life.h"
 
@@ -19,9 +20,8 @@
  **/
 void start_game()
 {
-    // Initialize options and base rules
+    // Initialize options
     struct options current_options = start_menu();
-    struct rule_set base_rules = BASE_RULES;
 
     // Initialize fields
     int field[current_options.height][current_options.width];
@@ -29,20 +29,20 @@ void start_game()
 
     int pre_last_state[current_options.height][current_options.width];
     int last_state[current_options.height][current_options.width];
-    int iteration = 1;
+    int iteration = 0;
+    int sleep_time = 1000/current_options.iterations_per_second;
 
     // Create initial field
     create_field(current_options, field);
 
     // Run the game, until a won state is detected
-    clear_screen();
     while(has_won(current_options, field, pre_last_state) != 1)
     {
         // Print current field
         print_field(current_options, field, iteration);
 
         // Calculation of the next iteration
-        calculate_next_step(current_options, field, base_rules, next_field);
+        calculate_next_step(current_options, field, next_field);
 
         // cache last fields for state determination
         copy_field(current_options, last_state, pre_last_state);
@@ -53,11 +53,31 @@ void start_game()
         iteration++;
 
         // TODO: skip this if run in auto-mode
-        char next;
-        printf("\n");
-        printf("Press [Enter] for next iteration.");
-        scanf("%c", &next);
-        fflush(stdin);
+
+
+        if (current_options.mode == 'm' || current_options.mode == 'M')
+        {
+            char next;
+            printf("\n");
+            printf("Press [Enter] for next iteration, [a] or [A] for automatic mode and [s] or [S] to save current iteration.");
+            scanf("%c", &next);
+            fflush(stdin);
+
+            if (next == 'a' || next == 'A')
+            {
+                current_options.mode = next;
+            }
+            else if (next == 's' || next == 'S')
+            {
+                save_field(current_options, last_state);
+            }
+        }
+        else
+        {
+            Sleep(sleep_time);
+        }
+
+
     }
 
     if (has_won(current_options, field, pre_last_state))
@@ -78,42 +98,69 @@ struct options start_menu()
     struct options current_options;
 
     allow_special_chars(); // Enable the usage for special characters.
-    build_frame(80, 15); // Create an empty frame for the start menu
+    build_frame(80, 20); // Create an empty frame for the start menu
 
-    set_cursor(25, 2);
+    int row = 2;
+    set_cursor(25, row++);
     printf("Welcome to the game of life");
 
-    set_cursor(10, 5);
+    row++;
+
+    set_cursor(10, row++);
     printf("Please input your game settings.");
 
-    set_cursor(5, 6);
+    set_cursor(5, row++);
     printf("Height: ");
     scanf("%i", &current_options.height);
     fflush(stdin);
 
-    set_cursor(5, 7);
+    set_cursor(5, row++);
     printf("Width: ");
     scanf("%i", &current_options.width);
     fflush(stdin);
 
-    set_cursor(5, 8);
+    set_cursor(5, row++);
     printf("Iterations per second: ");
     scanf("%i", &current_options.iterations_per_second);
     fflush(stdin);
 
+    set_cursor(5, row++);
+    printf("Manual ([m]/[M]) or Automatic ([a]/[A]) mode: ");
+    scanf("%c", &current_options.mode);
+    fflush(stdin);
 
-    set_cursor(10, 10);
+    set_cursor(5, row++);
+    printf("Use custom rules? (yes [y]/[Y] or no [n]/[N]): ");
+
+    row++;
+
+    set_cursor(10, row++);
     printf("\tPlease select your characters.");
 
-    set_cursor(5, 11);
+    set_cursor(5, row++);
     printf("Alive cells: ");
     scanf("%c", &current_options.alive);
     fflush(stdin);
 
-    set_cursor(5, 12);
+    set_cursor(5, row++);
     printf("Dead cells: ");
     scanf("%c", &current_options.dead);
     fflush(stdin);
+
+    row++;
+
+    char rule_set_identifier;
+    scanf("%c", &rule_set_identifier);
+    fflush(stdin);
+
+    if (rule_set_identifier == 'y' || rule_set_identifier == 'Y')
+    {
+        current_options.game_rules = input_rule_set();
+    }
+    else
+    {
+        current_options.game_rules = BASE_RULES;
+    }
 
     return current_options;
 }
@@ -124,12 +171,15 @@ struct options start_menu()
 int validate_input(struct options start_menu)
 {
     int validate = 0;   // Validate 0 = Input is not Valid
-                        // Validate 1 = Input is Valid
+    // Validate 1 = Input is Valid
 
-    if ((start_menu.height <= 2) || (start_menu.width <= 2)) {
+    if ((start_menu.height <= 2) || (start_menu.width <= 2))
+    {
         printf("The input of the height or width is incorrect.\n");
         validate = 0;
-    } else {
+    }
+    else
+    {
         validate = 1;
     }
 
@@ -141,24 +191,46 @@ int validate_input(struct options start_menu)
  **/
 void create_field(struct options current_options, int field[][current_options.width])
 {
-    int i, j;
-    time_t t;
-    srand(time(&t));
+    clear_screen();
+    build_frame(80, 20);
 
-    for(i = 0; i < current_options.height; i++)
+
+    set_cursor(10, 5);
+    printf("Load a save file [1] or generate random field [2]?");
+
+    int field_generation;
+    set_cursor(5, 6);
+    printf("Method: ");
+    scanf("%i", &field_generation);
+    fflush(stdin);
+
+    if (field_generation == 1)
     {
-        for(j = 0; j < current_options.width; j++)
+        load_field(current_options, field);
+    }
+    else
+    {
+        int i, j;
+        time_t t;
+        srand(time(&t));
+
+
+        for(i = 0; i < current_options.height; i++)
         {
-            if (rand() % 2 == 0)
+            for(j = 0; j < current_options.width; j++)
             {
-                field[i][j] = 1;
-            }
-            else
-            {
-                field[i][j] = 0;
+                if (rand() % 2 == 0)
+                {
+                    field[i][j] = 1;
+                }
+                else
+                {
+                    field[i][j] = 0;
+                }
             }
         }
     }
+
 }
 
 /**
@@ -213,7 +285,10 @@ struct rule_set input_rule_set()
     struct rule_set game_rules;
 
     clear_screen();
-    build_frame(80, 15); // Create an empty frame for the start menu
+    build_frame(80, 20); // Create an empty frame for the start menu
+
+    set_cursor(10, 5);
+    printf("Please enter custom game rules.");
 
     set_cursor(5, 6);
     printf("Maximum number of neighbors to revive: ");
@@ -259,7 +334,7 @@ int has_won(struct options current_options, int current_state[][current_options.
     return 1;
 }
 
-void calculate_next_step(struct options current_options, int field[][current_options.width], struct rule_set game_rules, int next_field[][current_options.width])
+void calculate_next_step(struct options current_options, int field[][current_options.width], int next_field[][current_options.width])
 {
     int i, j;
     int i_offset, j_offset;
@@ -285,7 +360,7 @@ void calculate_next_step(struct options current_options, int field[][current_opt
 
             if(field[i][j] == 1)
             {
-                if(count_alive > game_rules.max_survive || count_alive < game_rules.min_survive)
+                if(count_alive > current_options.game_rules.max_survive || count_alive < current_options.game_rules.min_survive)
                 {
                     next_field[i][j] = 0;
                 }
@@ -296,7 +371,7 @@ void calculate_next_step(struct options current_options, int field[][current_opt
             }
             else
             {
-                if(count_alive > game_rules.max_revive || count_alive < game_rules.min_revive)
+                if(count_alive > current_options.game_rules.max_revive || count_alive < current_options.game_rules.min_revive)
                 {
                     next_field[i][j] = 0;
                 }
@@ -311,9 +386,18 @@ void calculate_next_step(struct options current_options, int field[][current_opt
     }
 }
 
-void save_field(char save_name[], struct options current_options, int field[][current_options.width])
+void save_field(struct options current_options, int field[][current_options.width])
 {
-    char file_name[80];
+    clear_screen();
+    build_frame(80, 20);
+
+    char save_name[10];
+    set_cursor(5, 6);
+    printf("Please enter a save name (max 10 characters): ");
+    scanf("%s", save_name);
+    fflush(stdin);
+
+    char file_name[14];
     strcpy(file_name, save_name);
     strcat(file_name, ".gol");
     FILE *save_file;
@@ -335,8 +419,17 @@ void save_field(char save_name[], struct options current_options, int field[][cu
     fclose(save_file);
 }
 
-void load_field(char file_path[], struct options current_options, int field[][current_options.width])
+void load_field(struct options current_options, int field[][current_options.width])
 {
+    clear_screen();
+    build_frame(80, 20);
+
+    char file_path[256];
+    set_cursor(5, 6);
+    printf("Please enter a file path to a .gol file: ");
+    scanf("%s", file_path);
+    fflush(stdin);
+
     FILE *save_file;
     save_file = fopen(file_path, "r");
 
