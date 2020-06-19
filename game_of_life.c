@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <Windows.h>
+#include <windows.h>
 #include "console_helper.h"
 #include "game_of_life.h"
 
@@ -101,6 +101,8 @@ struct options start_menu()
     build_frame(80, 20); // Create an empty frame for the start menu
 
     int row = 2;
+    char load_file;
+
     set_cursor(25, row++);
     printf("Welcome to the game of life");
 
@@ -131,6 +133,8 @@ struct options start_menu()
 
     set_cursor(5, row++);
     printf("Use custom rules? (yes [y]/[Y] or no [n]/[N]): ");
+    scanf("%c", &load_file);
+    fflush(stdin);
 
     row++;
 
@@ -149,11 +153,7 @@ struct options start_menu()
 
     row++;
 
-    char rule_set_identifier;
-    scanf("%c", &rule_set_identifier);
-    fflush(stdin);
-
-    if (rule_set_identifier == 'y' || rule_set_identifier == 'Y')
+    if (load_file == 'y' || load_file == 'Y')
     {
         current_options.game_rules = input_rule_set();
     }
