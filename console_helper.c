@@ -94,8 +94,8 @@ int set_color(char color)
 {
     HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(hstdout, &csbi);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hstdout, &csbi);
 
     SetConsoleTextAttribute(hstdout, color);
 

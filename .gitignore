@@ -54,3 +54,6 @@ dkms.conf
 # Code Blocks files
 *.layout
 *.depend
+
+# Game of Life save files
+*.gol
