@@ -10,8 +10,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "console_helper.h"
 #include "game_of_life.h"
+
+/**
+ *  This start the game of life; May the games begin!
+ **/
+void start_game()
+{
+    // Initialize options and base rules
+    struct options current_options = start_menu();
+    struct rule_set base_rules = BASE_RULES;
+
+    // Initialize fields
+    int field[current_options.height][current_options.width];
+    int next_field[current_options.height][current_options.width];
+
+    int pre_last_state[current_options.height][current_options.width];
+    int last_state[current_options.height][current_options.width];
+    int iteration = 1;
+
+    // Create initial field
+    create_field(current_options, field);
+
+    // Run the game, until a won state is detected
+    clear_screen();
+    while(has_won(current_options, field, pre_last_state) != 1)
+    {
+        // Print current field
+        print_field(current_options, field, iteration);
+
+        // Calculation of the next iteration
+        calculate_next_step(current_options, field, base_rules, next_field);
+
+        // cache last fields for state determination
+        copy_field(current_options, last_state, pre_last_state);
+        copy_field(current_options, field, last_state);
+
+        copy_field(current_options, next_field, field);
+
+        iteration++;
+
+        // TODO: skip this if run in auto-mode
+        char next;
+        printf("\n");
+        printf("Press [Enter] for next iteration.");
+        scanf("%c", &next);
+        fflush(stdin);
+    }
+
+    if (has_won(current_options, field, pre_last_state))
+    {
+        printf("You have won! Maybe ...\n");
+    }
+    else
+    {
+        printf("Unable to determine state.\n");
+    }
+}
 
 /**
  *  Creates a simple framed start menu for the player to setup his options.
@@ -122,10 +179,10 @@ void copy_field(struct options current_options, int source_field[][current_optio
 /**
  *  Outputs a field of cells to console
  **/
-void print_field(struct options current_options, int field[][current_options.width])
+void print_field(struct options current_options, int field[][current_options.width], int iteration)
 {
     clear_screen();
-    printf("Iteration: %i\tPer second: %i \tMode: %s \n\n", 99, current_options.iterations_per_second, "Step");
+    printf("Iteration: %i\tPer second: %i \tMode: %s \n\n", iteration, current_options.iterations_per_second, "Step");
 
     int i, j;
     for(i = 0; i < current_options.height; i++)
