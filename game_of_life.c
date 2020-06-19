@@ -52,9 +52,6 @@ void start_game()
 
         iteration++;
 
-        // TODO: skip this if run in auto-mode
-
-
         if (current_options.mode == 'm' || current_options.mode == 'M')
         {
             char next;
@@ -80,14 +77,8 @@ void start_game()
 
     }
 
-    if (has_won(current_options, field, pre_last_state))
-    {
-        printf("You have won! Maybe ...\n");
-    }
-    else
-    {
-        printf("Unable to determine state.\n");
-    }
+    printf("You have won! Maybe ...\n");
+    Sleep(2500);
 }
 
 /**
@@ -196,7 +187,7 @@ void create_field(struct options current_options, int field[][current_options.wi
 
 
     set_cursor(10, 5);
-    printf("Load a save file [1] or generate random field [2]?");
+    printf("Load a save file [1] or generate random field [2]");
 
     int field_generation;
     set_cursor(5, 6);
@@ -211,6 +202,8 @@ void create_field(struct options current_options, int field[][current_options.wi
     else
     {
         int i, j;
+
+        // Initialize randomizer
         time_t t;
         srand(time(&t));
 
@@ -219,6 +212,7 @@ void create_field(struct options current_options, int field[][current_options.wi
         {
             for(j = 0; j < current_options.width; j++)
             {
+                // Fill field based on a coin flip principle
                 if (rand() % 2 == 0)
                 {
                     field[i][j] = 1;
@@ -254,7 +248,8 @@ void copy_field(struct options current_options, int source_field[][current_optio
 void print_field(struct options current_options, int field[][current_options.width], int iteration)
 {
     clear_screen();
-    printf("Iteration: %i\tPer second: %i \tMode: %s \n\n", iteration, current_options.iterations_per_second, "Step");
+
+    printf("Iteration: %i\tPer second: %i \tMode: %c \n\n", iteration, current_options.iterations_per_second, current_options.mode);
 
     int i, j;
     for(i = 0; i < current_options.height; i++)
@@ -334,6 +329,9 @@ int has_won(struct options current_options, int current_state[][current_options.
     return 1;
 }
 
+/**
+ *  Calculate the next iteration based on the current field and rule set
+ **/
 void calculate_next_step(struct options current_options, int field[][current_options.width], int next_field[][current_options.width])
 {
     int i, j;
@@ -386,6 +384,10 @@ void calculate_next_step(struct options current_options, int field[][current_opt
     }
 }
 
+/**
+ *  Exports the current field to a .gol file.
+ *  This is basically a text file, so you can easily create your own save state
+ **/
 void save_field(struct options current_options, int field[][current_options.width])
 {
     clear_screen();
@@ -419,6 +421,9 @@ void save_field(struct options current_options, int field[][current_options.widt
     fclose(save_file);
 }
 
+/**
+ *  Loads a .gol file into the game, with your currently set options
+ **/
 void load_field(struct options current_options, int field[][current_options.width])
 {
     clear_screen();

@@ -10,8 +10,6 @@
 
 - [Overview](#overview)
 - [Installation](#installation)
-- [Links](#links)
-
 ## Overview
 
 The **Game of Life** is based of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life),
@@ -21,13 +19,8 @@ which is a zero-player game.
 
 To compile run
 
-```sh
+```shell
 make
 ```
 
 or use the build in compiler from CodeBlocks
-
-## Links
-
-- [Documentation](./DOCUMENTATION.md)
-- [GitHub](https://github.com/jpeterburs/game_of_life)

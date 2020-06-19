@@ -1,8 +1,8 @@
-#  -g    adds debugging information to the executable file
-#  -Wall turns on most, but not all, compiler warnings
+#  -g    		adds debugging information to the executable file
+#  -Werror 	turns all compiler warnings into errors, and thus filing the compiling process
 CC = gcc
 CFLAGS  = -g -Werror
-TARGET = game_of_life
+TARGET = bin/game_of_life
 
 all: game_of_life
 
