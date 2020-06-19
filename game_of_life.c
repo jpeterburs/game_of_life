@@ -278,18 +278,22 @@ void save_field(char save_name[], struct options current_options, int field[][cu
     fclose(save_file);
 }
 
-void load_field(char file_path[])
+void load_field(char file_path[], struct options current_options, int field[][current_options.width])
 {
     FILE *save_file;
     save_file = fopen(file_path, "r");
 
-
-
     char buffer[30];
 
-    while (fscanf(save_file, "%30[^\n]\n", buffer) != EOF)
+    int i = 0;
+    while (fscanf(save_file, "%[01]\n", buffer) != EOF)
     {
-
+        int j, width = strlen(buffer);
+        for (j = 0; j < width; j++)
+        {
+            field[i][j] = buffer[j] - '0';
+        }
+        i++;
     }
 
     fclose(save_file);

@@ -19,6 +19,16 @@ int main()
 
     create_field(current_options, field);
 
+    save_field("t", current_options, field);
+    int l_field[current_options.height][current_options.width];
+    load_field("t.gol", current_options, l_field);
+    print_field(current_options, l_field);
+
+    char next;
+    printf("\n");
+    printf("Press [Enter] for next iteration.");
+    scanf("%c", &next);
+
     while(has_won(current_options, field, pre_last_state) != 1)
     {
         print_field(current_options, field);
