@@ -11,7 +11,6 @@ struct rule_set
     int min_survive;
     int max_survive;
 };
-
 struct options
 {
     int height;
@@ -22,7 +21,6 @@ struct options
     char mode; //'a' or 'A' for automatic mode, 'm' or 'M' for manual mode
     struct rule_set game_rules;
 };
-
 
 struct options start_menu();
 int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width]);
