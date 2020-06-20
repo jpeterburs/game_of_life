@@ -20,8 +20,20 @@
  **/
 void start_game()
 {
-    // Initialize options
-    struct options current_options = start_menu();
+    struct options current_options;
+
+    do
+    {
+        // Display start menu, until options are valid
+        current_options = start_menu();
+
+        if (validate_input(current_options) == 1)
+        {
+            printf("Options invalid.");
+            Sleep(1500);
+        }
+    } while (validate_input(current_options) == 1);
+    
 
     // Initialize fields
     int field[current_options.height][current_options.width];
@@ -73,8 +85,6 @@ void start_game()
         {
             Sleep(sleep_time);
         }
-
-
     }
 
     printf("You have won! Maybe ...\n");
@@ -103,17 +113,17 @@ struct options start_menu()
     printf("Please input your game settings.");
 
     set_cursor(5, row++);
-    printf("Height: ");
+    printf("Height (min 3): ");
     scanf("%i", &current_options.height);
     fflush(stdin);
 
     set_cursor(5, row++);
-    printf("Width: ");
+    printf("Width (min 3): ");
     scanf("%i", &current_options.width);
     fflush(stdin);
 
     set_cursor(5, row++);
-    printf("Iterations per second: ");
+    printf("Iterations per second (1 - 10): ");
     scanf("%i", &current_options.iterations_per_second);
     fflush(stdin);
 
@@ -130,7 +140,7 @@ struct options start_menu()
     row++;
 
     set_cursor(10, row++);
-    printf("\tPlease select your characters.");
+    printf("\tPlease select your characters. (Cannot be the same)");
 
     set_cursor(5, row++);
     printf("Alive cells: ");
@@ -159,22 +169,25 @@ struct options start_menu()
 /**
 * Checks if the Input is valid
 **/
-int validate_input(struct options start_menu)
+int validate_input(struct options current_options)
 {
-    int validate = 0;   // Validate 0 = Input is not Valid
-    // Validate 1 = Input is Valid
+    int valid;
 
-    if ((start_menu.height <= 2) || (start_menu.width <= 2))
+    if 
+    (
+        (current_options.height <= 2 || current_options.width <= 2) ||
+        (current_options.alive == current_options.dead) ||
+        (current_options.iterations_per_second < 1 || current_options.iterations_per_second > 10) ||
+        (current_options.game_rules.min_revive > 8 || current_options.game_rules.min_survive > 8) ||
+        (current_options.game_rules.max_revive > 8 || current_options.game_rules.max_survive > 8)
+    )
     {
-        printf("The input of the height or width is incorrect.\n");
-        validate = 0;
+        return 1;
     }
     else
     {
-        validate = 1;
+        return 0;
     }
-
-    return validate;
 }
 
 /**
@@ -182,14 +195,14 @@ int validate_input(struct options start_menu)
  **/
 void create_field(struct options current_options, int field[][current_options.width])
 {
+    int field_generation;
+
     clear_screen();
     build_frame(80, 20);
-
 
     set_cursor(10, 5);
     printf("Load a save file [1] or generate random field [2]");
 
-    int field_generation;
     set_cursor(5, 6);
     printf("Method: ");
     scanf("%i", &field_generation);
