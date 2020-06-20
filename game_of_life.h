@@ -32,6 +32,6 @@ void calculate_next_step(struct options current_options, int field[][current_opt
 void load_field(struct options current_options, int field[][current_options.width]);
 void save_field(struct options current_options, int field[][current_options.width]);
 void start_game();
-int validate_input(struct options);
+int validate_input(struct options current_options);
 
 #endif // GAME_OF_LIFE_H_INCLUDED
