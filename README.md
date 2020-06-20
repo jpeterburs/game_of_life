@@ -10,6 +10,8 @@
 
 - [Overview](#overview)
 - [Installation](#installation)
+- [Documentation](#documentation)
+
 ## Overview
 
 The **Game of Life** is based of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life),
@@ -24,3 +26,7 @@ make
 ```
 
 or use the build in compiler from CodeBlocks
+
+## Documentation
+
+[Link to our documentation.](DOCUMENTATION.md)
