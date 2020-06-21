@@ -20,6 +20,7 @@
  **/
 void start_game()
 {
+    //Initialization of the options via start menu
     struct options current_options;
 
     do
@@ -33,7 +34,7 @@ void start_game()
             Sleep(1500);
         }
     } while (validate_input(current_options) == 1);
-    
+
 
     // Initialize fields
     int field[current_options.height][current_options.width];
@@ -45,12 +46,14 @@ void start_game()
     int sleep_time = 1000/current_options.iterations_per_second;
 
     // Create initial field
+    // Initial generation of the playing field based on giving options and rules
     create_field(current_options, field);
 
     // Run the game, until a won state is detected
     while(has_won(current_options, field, pre_last_state) != 1)
     {
         // Print current field
+        //Display of the current playing field including current iteration, iterations per second and the current mode
         print_field(current_options, field, iteration);
 
         // Calculation of the next iteration
@@ -64,8 +67,10 @@ void start_game()
 
         iteration++;
 
+        // Checking if the current mode is manual or automatic
         if (current_options.mode == 'm' || current_options.mode == 'M')
         {
+            //Input if the next thing to do is, switch to automatic mode (a/A), save (s/S) or continue (everything else)
             char next;
             printf("\n");
             printf("Press [Enter] for next iteration, [a] or [A] for automatic mode and [s] or [S] to save current iteration.");
@@ -83,11 +88,13 @@ void start_game()
         }
         else
         {
+            //Wait for a few seconds based on the given iterations per second option
             Sleep(sleep_time);
         }
     }
 
     printf("You have won! Maybe ...\n");
+    //Exit after c.a. 3 seconds
     Sleep(2500);
 }
 
@@ -173,8 +180,9 @@ int validate_input(struct options current_options)
 {
     int valid;
 
-    if 
+    if
     (
+        //Checking if the values for the high, widh, iterations per second, min revived or max revived are not possible?
         (current_options.height <= 2 || current_options.width <= 2) ||
         (current_options.alive == current_options.dead) ||
         (current_options.iterations_per_second < 1 || current_options.iterations_per_second > 10) ||
@@ -197,6 +205,7 @@ void create_field(struct options current_options, int field[][current_options.wi
 {
     int field_generation;
 
+    //Create a new screen
     clear_screen();
     build_frame(80, 20);
 
@@ -208,6 +217,7 @@ void create_field(struct options current_options, int field[][current_options.wi
     scanf("%i", &field_generation);
     fflush(stdin);
 
+    // Check if to load a new save file (1) or genereate a random field(2)
     if (field_generation == 1)
     {
         load_field(current_options, field);
@@ -220,7 +230,7 @@ void create_field(struct options current_options, int field[][current_options.wi
         time_t t;
         srand(time(&t));
 
-
+        //Iterate through every cell of the field
         for(i = 0; i < current_options.height; i++)
         {
             for(j = 0; j < current_options.width; j++)
@@ -246,10 +256,12 @@ void create_field(struct options current_options, int field[][current_options.wi
 void copy_field(struct options current_options, int source_field[][current_options.width], int target_field[][current_options.width])
 {
     int i, j;
+    //Iterate through every cell of the field
     for(i = 0; i < current_options.height; i++)
     {
         for(j = 0; j < current_options.width; j++)
         {
+            //Copy every cell
             target_field[i][j] = source_field[i][j]; //Initial value for cells
         }
     }
@@ -265,6 +277,7 @@ void print_field(struct options current_options, int field[][current_options.wid
     printf("Iteration: %i\tPer second: %i \tMode: %c \n\n", iteration, current_options.iterations_per_second, current_options.mode);
 
     int i, j;
+    //Iterate through every cell of the field
     for(i = 0; i < current_options.height; i++)
     {
 
@@ -327,10 +340,12 @@ struct rule_set input_rule_set()
 int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width])
 {
     int i, j;
+    //Iterate through every cell of the field
     for (i = 0; i < current_options.height; i++)
     {
         for (j = 0; j < current_options.width; j++)
         {
+            //Check if the current state is the same as last state
             if (current_state[i][j] != compare_state[i][j])
             {
                 return 0;
@@ -351,6 +366,7 @@ void calculate_next_step(struct options current_options, int field[][current_opt
     int i_offset, j_offset;
     int count_alive = 0;
 
+    //Iterate through every cell of the field
     for(i = 0; i < current_options.height; i++)
     {
         for(j = 0; j < current_options.width; j++)
@@ -406,6 +422,7 @@ void save_field(struct options current_options, int field[][current_options.widt
     clear_screen();
     build_frame(80, 20);
 
+    //Create a file with the file name
     char save_name[10];
     set_cursor(5, 6);
     printf("Please enter a save name (max 10 characters): ");
@@ -418,13 +435,14 @@ void save_field(struct options current_options, int field[][current_options.widt
     FILE *save_file;
     save_file = fopen(file_name, "w+");
 
+    //Iterate through every cell of the field
     int i, j;
     for(i = 0; i < current_options.height; i++)
     {
 
         for(j = 0; j < current_options.width; j++)
         {
-            //Checks if cell is dead
+            //Save the cell
             fprintf(save_file, "%d", field[i][j]);
 
         }
@@ -442,12 +460,14 @@ void load_field(struct options current_options, int field[][current_options.widt
     clear_screen();
     build_frame(80, 20);
 
+    //Input of the file path of the saved file
     char file_path[256];
     set_cursor(5, 6);
     printf("Please enter a file path to a .gol file: ");
     scanf("%s", file_path);
     fflush(stdin);
 
+    //Open the file path
     FILE *save_file;
     save_file = fopen(file_path, "r");
 
@@ -456,6 +476,7 @@ void load_field(struct options current_options, int field[][current_options.widt
     int i = 0;
     while (fscanf(save_file, "%[01]\n", buffer) != EOF)
     {
+        //Load the fields of the save
         int j, width = strlen(buffer);
         for (j = 0; j < width; j++)
         {
