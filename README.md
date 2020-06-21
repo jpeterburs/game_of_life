@@ -1,4 +1,4 @@
-# The Game of Life <!-- omit in toc -->
+# The Game of Life
 
 ![The Game of Life banner](https://i.imgur.com/yXHSdel.png)
 
@@ -6,10 +6,6 @@
 ![GitHub License](https://img.shields.io/github/license/jpeterburs/game_of_life)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020)
 
-## Table of contents <!-- omit in toc -->
-
-- [Overview](#overview)
-- [Installation](#installation)
 ## Overview
 
 The **Game of Life** is based of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life),
@@ -24,3 +20,7 @@ make
 ```
 
 or use the build in compiler from CodeBlocks
+
+## Documentation
+
+[Link to our documentation.](DOCUMENTATION.md)
