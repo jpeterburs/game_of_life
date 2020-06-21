@@ -1,16 +1,10 @@
-# The Game of Life <!-- omit in toc -->
+# The Game of Life
 
 ![The Game of Life banner](https://i.imgur.com/yXHSdel.png)
 
 ![Compiler Build](https://github.com/jpeterburs/game_of_life/workflows/compiler/badge.svg)
 ![GitHub License](https://img.shields.io/github/license/jpeterburs/game_of_life)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020)
-
-## Table of contents <!-- omit in toc -->
-
-- [Overview](#overview)
-- [Installation](#installation)
-- [Documentation](#documentation)
 
 ## Overview
 
