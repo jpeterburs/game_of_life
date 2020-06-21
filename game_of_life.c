@@ -33,7 +33,7 @@ void start_game()
             Sleep(1500);
         }
     } while (validate_input(current_options) == 1);
-    
+
 
     // Initialize fields
     int field[current_options.height][current_options.width];
@@ -171,9 +171,7 @@ struct options start_menu()
 **/
 int validate_input(struct options current_options)
 {
-    int valid;
-
-    if 
+    if
     (
         (current_options.height <= 2 || current_options.width <= 2) ||
         (current_options.alive == current_options.dead) ||
@@ -407,10 +405,20 @@ void save_field(struct options current_options, int field[][current_options.widt
     build_frame(80, 20);
 
     char save_name[10];
-    set_cursor(5, 6);
-    printf("Please enter a save name (max 10 characters): ");
-    scanf("%s", save_name);
-    fflush(stdin);
+
+    do {
+        set_cursor(5, 6);
+        printf("Please enter a save name (max 10 characters): ");
+        scanf("%s", save_name);
+        fflush(stdin);
+        if (strlen(save_name) > 10)
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("Name is to long.");
+        }
+    } while(strlen(save_name) > 10);
 
     char file_name[14];
     strcpy(file_name, save_name);
@@ -442,14 +450,41 @@ void load_field(struct options current_options, int field[][current_options.widt
     clear_screen();
     build_frame(80, 20);
 
-    char file_path[256];
-    set_cursor(5, 6);
-    printf("Please enter a file path to a .gol file: ");
-    scanf("%s", file_path);
-    fflush(stdin);
 
-    FILE *save_file;
-    save_file = fopen(file_path, "r");
+    FILE *save_file = NULL;
+
+    do {
+
+        char file_path[256];
+        set_cursor(5, 6);
+        printf("Please enter a file path to a .gol file: ");
+        scanf("%s", file_path);
+        fflush(stdin);
+
+        int dot_index = strlen(file_path) - 4;
+
+        if (dot_index < 0 ||
+            (file_path[dot_index] != '.'
+             && file_path[dot_index + 1] != 'g'
+             && file_path[dot_index + 2] != 'o'
+             && file_path[dot_index + 3] != 'l'))
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("Invalid file type. Please select a valid file!");
+            continue;
+        }
+
+        save_file = fopen(file_path, "r");
+        if (save_file == NULL)
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("File does not exist. Please select a valid file!");
+        }
+    }while(save_file == NULL);
 
     char buffer[30];
 
