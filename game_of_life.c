@@ -33,7 +33,8 @@ void start_game()
             printf("Options invalid.");
             Sleep(1500);
         }
-    } while (validate_input(current_options) == 1);
+    }
+    while (validate_input(current_options) == 1);
 
 
     // Initialize fields
@@ -51,7 +52,7 @@ void start_game()
     // Run the game, until a "won" state is detected
     while (has_won(current_options, field, pre_last_state) != 1)
     {
-        
+
         // Display of the current playing field including current iteration, iterations per second and the current mode
         print_field(current_options, field, iteration);
 
@@ -62,6 +63,7 @@ void start_game()
         copy_field(current_options, last_state, pre_last_state);
         copy_field(current_options, field, last_state);
 
+        // Move newly generated field to field as preparation for next iteration
         copy_field(current_options, next_field, field);
 
         iteration++;
@@ -93,7 +95,7 @@ void start_game()
     }
 
     printf("You have won! Maybe ...\n");
-    
+
     // Exit after c.a. 3 seconds
     Sleep(2500);
 }
@@ -179,8 +181,6 @@ struct options start_menu()
 **/
 int validate_input(struct options current_options)
 {
-    int valid;
-
     // Check if the values for the height, width, iterations per second, min revived or max revived are impossible
     if
     (
@@ -257,7 +257,7 @@ void create_field(struct options current_options, int field[][current_options.wi
 void copy_field(struct options current_options, int source_field[][current_options.width], int target_field[][current_options.width])
 {
     int i, j;
-    
+
     // Iterate through every cell of the field
     for (i = 0; i < current_options.height; i++)
     {
@@ -279,7 +279,7 @@ void print_field(struct options current_options, int field[][current_options.wid
     printf("Iteration: %i\tPer second: %i \tMode: %c \n\n", iteration, current_options.iterations_per_second, current_options.mode);
 
     int i, j;
-    
+
     // Iterate through every cell of the field
     for (i = 0; i < current_options.height; i++)
     {
@@ -342,7 +342,7 @@ struct rule_set input_rule_set()
 int has_won(struct options current_options, int current_state[][current_options.width], int compare_state[][current_options.width])
 {
     int i, j;
-    
+
     //Iterate through every cell of the field
     for (i = 0; i < current_options.height; i++)
     {
@@ -355,7 +355,7 @@ int has_won(struct options current_options, int current_state[][current_options.
             }
         }
     }
-    
+
     return 1;
 }
 
@@ -373,6 +373,7 @@ void calculate_next_step(struct options current_options, int field[][current_opt
     {
         for (j = 0; j < current_options.width; j++)
         {
+            // Count living cells around the selected cell
             for (i_offset = -1; i_offset < 2; i_offset++)
             {
                 for (j_offset = -1; j_offset < 2; j_offset++)
@@ -380,7 +381,8 @@ void calculate_next_step(struct options current_options, int field[][current_opt
                     int pos_i = i + i_offset;
                     int pos_j = j + j_offset;
 
-                    if 
+                    // Check to make sure cell index is not out of bounds or same as selected cell
+                    if
                     (
                         pos_i >= 0 && pos_i < current_options.height &&
                         pos_j >= 0 && pos_j < current_options.width &&
@@ -392,6 +394,7 @@ void calculate_next_step(struct options current_options, int field[][current_opt
                 }
             }
 
+            // Set the corresponding cell in the new field to either alive or dead according to current state of the cell, number of living neighbors and given rule set
             if (field[i][j] == 1)
             {
                 if (count_alive > current_options.game_rules.max_survive || count_alive < current_options.game_rules.min_survive)
@@ -431,10 +434,22 @@ void save_field(struct options current_options, int field[][current_options.widt
 
     // Create a file with the file name
     char save_name[10];
-    set_cursor(5, 6);
-    printf("Please enter a save name (max 10 characters): ");
-    scanf("%s", save_name);
-    fflush(stdin);
+
+    do
+    {
+        set_cursor(5, 6);
+        printf("Please enter a save name (max 10 characters): ");
+        scanf("%s", save_name);
+        fflush(stdin);
+        if (strlen(save_name) > 10)
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("Name is to long.");
+        }
+    }
+    while (strlen(save_name) > 10);
 
     char file_name[14];
     strcpy(file_name, save_name);
@@ -444,7 +459,7 @@ void save_field(struct options current_options, int field[][current_options.widt
 
     // Iterate through every cell of the field
     int i, j;
-    
+
     for (i = 0; i < current_options.height; i++)
     {
 
@@ -468,26 +483,51 @@ void load_field(struct options current_options, int field[][current_options.widt
     clear_screen();
     build_frame(80, 20);
 
-    // Input of the file path of the saved file
-    char file_path[256];
-    set_cursor(5, 6);
-    printf("Please enter a file path to a .gol file: ");
-    scanf("%s", file_path);
-    fflush(stdin);
+    FILE *save_file = NULL;
 
-    // Open the file path
-    FILE *save_file;
-    save_file = fopen(file_path, "r");
+    do
+    {
+        char file_path[256];
+        set_cursor(5, 6);
+        printf("Please enter a file path to a .gol file: ");
+        scanf("%s", file_path);
+        fflush(stdin);
+
+        int dot_index = strlen(file_path) - 4;
+
+        if (dot_index < 0 ||
+                (file_path[dot_index] != '.'
+                 && file_path[dot_index + 1] != 'g'
+                 && file_path[dot_index + 2] != 'o'
+                 && file_path[dot_index + 3] != 'l'))
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("Invalid file type. Please select a valid file!");
+            continue;
+        }
+
+        save_file = fopen(file_path, "r");
+        if (save_file == NULL)
+        {
+            clear_screen();
+            build_frame(80, 20);
+            set_cursor(5, 4);
+            printf("File does not exist. Please select a valid file!");
+        }
+    }
+    while(save_file == NULL);
 
     char buffer[30];
 
     int i = 0;
-    
+
     while (fscanf(save_file, "%[01]\n", buffer) != EOF)
     {
         // Load the fields of the save
         int j, width = strlen(buffer);
-        
+
         for (j = 0; j < width; j++)
         {
             field[i][j] = buffer[j] - '0';

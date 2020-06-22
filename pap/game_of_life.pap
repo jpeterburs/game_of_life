@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="C32AD6EFBF858E5D">
-  <PROJECT FORMAT="1.00" NAME="input_rule_set" AUTHOR="Eduard Rempel, Jonas Peterburs, Milan Wiehe" CREATED="2020.06.20 16:05:40" MODIFIED="2020.06.21 15:53:28">
+<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="6C6D0CFFEB76EFEB">
+  <PROJECT FORMAT="1.00" NAME="input_rule_set" AUTHOR="Eduard Rempel, Jonas Peterburs, Milan Wiehe" CREATED="2020.06.20 16:05:40" MODIFIED="2020.06.21 23:31:49">
     <DIAGRAMS>
       <DIAGRAM FORMAT="1.00" ID="0" NAME="start_game" CREATED="2020.06.20 16:05:47" MODIFIED="2020.06.20 16:29:40">
         <LAYOUT FORMAT="1.00" COLUMNS="3" ROWS="19">
@@ -167,7 +167,7 @@
           <CONNECTION FORMAT="1.00" ID="77" FROM="51" TO="75" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="1" NAME="start_menu" CREATED="2020.06.20 16:06:39" MODIFIED="2020.06.21 15:53:28">
+      <DIAGRAM FORMAT="1.00" ID="1" NAME="start_menu" CREATED="2020.06.20 16:06:39" MODIFIED="2020.06.21 14:52:55">
         <LAYOUT FORMAT="1.00" COLUMNS="2" ROWS="8">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
@@ -196,8 +196,8 @@
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="5">
-              <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="24">
-                <TEXT><![CDATA[input_rule_set]]></TEXT>
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="10">
+                <TEXT><![CDATA[Use custom rules]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="6">
@@ -231,13 +231,13 @@
           <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="4" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="6" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="7" FROM="6" TO="8" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="10" TEXT="true" />
           <CONNECTION FORMAT="1.00" ID="23" FROM="18" TO="21" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="14" FROM="8" TO="13" TEXT="false" />
           <CONNECTION FORMAT="1.00" ID="15" FROM="13" TO="12" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="22" FROM="21" TO="2" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="19" FROM="12" TO="18" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="24" TEXT="true" />
-          <CONNECTION FORMAT="1.00" ID="25" FROM="24" TO="21" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="11" FROM="10" TO="21" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
       <DIAGRAM FORMAT="1.00" ID="2" NAME="create_field" CREATED="2020.06.20 16:07:56" MODIFIED="2020.06.21 14:52:55">
@@ -615,8 +615,8 @@
           <CONNECTION FORMAT="1.00" ID="13" FROM="12" TO="10" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="7" NAME="calculate_next_step" CREATED="2020.06.20 16:32:57" MODIFIED="2020.06.21 14:37:28">
-        <LAYOUT FORMAT="1.00" COLUMNS="1" ROWS="12">
+      <DIAGRAM FORMAT="1.00" ID="7" NAME="calculate_next_step" CREATED="2020.06.20 16:32:57" MODIFIED="2020.06.21 23:31:49">
+        <LAYOUT FORMAT="1.00" COLUMNS="2" ROWS="15">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
               <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
@@ -640,42 +640,67 @@
             </ENTRY>
             <ENTRY COLUMN="0" ROW="4">
               <FIGURE SUBTYPE="PapLoopStart" FORMAT="1.00" ID="12" ASSOCIATE="14">
-                <TEXT><![CDATA[]]></TEXT>
+                <TEXT><![CDATA[for -1 to +1 line offset]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="5">
               <FIGURE SUBTYPE="PapLoopStart" FORMAT="1.00" ID="16" ASSOCIATE="18">
-                <TEXT><![CDATA[]]></TEXT>
+                <TEXT><![CDATA[for -1 to +1 column offset]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="6">
               <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="20">
-                <TEXT><![CDATA[?]]></TEXT>
+                <TEXT><![CDATA[are line+offset and column+offset around a cell are not outside the field or the cell itself ?]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="7">
-              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="18" ASSOCIATE="16">
-                <TEXT><![CDATA[]]></TEXT>
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="26">
+                <TEXT><![CDATA[add the value of the cell to count_alive]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="8">
-              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="14" ASSOCIATE="12">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="28">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="9">
-              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="10" ASSOCIATE="8">
+              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="18" ASSOCIATE="16">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="10">
-              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="6" ASSOCIATE="4">
+              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="14" ASSOCIATE="12">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="11">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="37">
+                <TEXT><![CDATA[set the corresponding cell in the new field to either alive or dead according to current state of the cell, number of living neighbors and given rule set]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="12">
+              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="10" ASSOCIATE="8">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="13">
+              <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="6" ASSOCIATE="4">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="14">
               <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
                 <TEXT><![CDATA[End]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="6">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="22">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="8">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="32">
+                <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
           </ENTRIES>
@@ -686,14 +711,20 @@
           <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="8" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="11" FROM="10" TO="6" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="12" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="15" FROM="14" TO="10" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="13" FROM="12" TO="16" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="19" FROM="18" TO="14" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="17" FROM="16" TO="20" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="21" FROM="20" TO="18" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="21" FROM="20" TO="26" TEXT="yes" />
+          <CONNECTION FORMAT="1.00" ID="23" FROM="20" TO="22" TEXT="no" />
+          <CONNECTION FORMAT="1.00" ID="34" FROM="32" TO="28" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="27" FROM="26" TO="28" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="29" FROM="28" TO="18" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="31" FROM="22" TO="32" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="15" FROM="14" TO="37" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="38" FROM="37" TO="10" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="8" NAME="load_field" CREATED="2020.06.20 16:33:23" MODIFIED="2020.06.21 14:31:39">
+      <DIAGRAM FORMAT="1.00" ID="8" NAME="load_field" CREATED="2020.06.20 16:33:23" MODIFIED="2020.06.21 19:19:42">
         <LAYOUT FORMAT="1.00" COLUMNS="1" ROWS="9">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
@@ -723,7 +754,7 @@
             </ENTRY>
             <ENTRY COLUMN="0" ROW="5">
               <FIGURE SUBTYPE="PapLoopStart" FORMAT="1.00" ID="10" ASSOCIATE="12">
-                <TEXT><![CDATA[As long as]]></TEXT>
+                <TEXT><![CDATA[As long as next line from file is not end of file]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="6">
@@ -799,48 +830,6 @@
           <CONNECTION FORMAT="1.00" ID="7" FROM="6" TO="2" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="10" FROM="4" TO="9" TEXT="false" />
           <CONNECTION FORMAT="1.00" ID="11" FROM="9" TO="8" TEXT="" />
-        </CONNECTIONS>
-      </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="10" NAME="input_rule_set" CREATED="2020.06.21 15:50:52" MODIFIED="2020.06.21 15:50:52">
-        <LAYOUT FORMAT="1.00" COLUMNS="1" ROWS="6">
-          <ENTRIES>
-            <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
-              <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
-                <TEXT><![CDATA[input_rule_set]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="1">
-              <FIGURE SUBTYPE="PapStart" FORMAT="1.00" ID="1">
-                <TEXT><![CDATA[Start]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="2">
-              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="6">
-                <TEXT><![CDATA[Clear screen]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="3">
-              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="8">
-                <TEXT><![CDATA[Build a new frame for the menu]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="4">
-              <FIGURE SUBTYPE="PapInput" FORMAT="1.00" ID="4">
-                <TEXT><![CDATA[Input rules for the game]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="5">
-              <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
-                <TEXT><![CDATA[End]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-          </ENTRIES>
-        </LAYOUT>
-        <CONNECTIONS>
-          <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="6" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="2" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="7" FROM="6" TO="8" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="4" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
     </DIAGRAMS>
