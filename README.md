@@ -4,7 +4,7 @@
 
 ![Compiler Build](https://github.com/jpeterburs/game_of_life/workflows/compiler/badge.svg)
 ![GitHub License](https://img.shields.io/github/license/jpeterburs/game_of_life)
-![Maintenance](https://img.shields.io/maintenance/yes/2020)
+![Maintenance](https://img.shields.io/maintenance/no/2020)
 
 ## Overview
 
